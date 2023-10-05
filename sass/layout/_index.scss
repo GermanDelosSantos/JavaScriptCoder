@@ -35,7 +35,7 @@ section{
         border: solid, 2px, aqua;
         background-color: brown;
         transition: 0.2s ease-in-out;
-        &hover{
+        &:hover{
             transition: 0.2s ease-in;
             background-color: aqua;
     
