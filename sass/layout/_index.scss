@@ -1,0 +1,44 @@
+section{
+    background-color: #191919d3;
+    div{
+        width: 50%;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #191919aa;
+        margin: 4rem;
+        padding: 3rem;
+    }
+    h1{
+        text-align: center;
+        color: #b71414d6;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        size: 3rem;
+    }
+    p{
+        color: aqua;
+        margin: 2rem;
+        size: 2rem;
+    }
+}
+.btn-div{
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    button{
+        padding: 0.9rem;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        color: #191919;
+        font-style: italic;
+        border-radius: 20%;
+        border: solid, 2px, aqua;
+        background-color: brown;
+        transition: 0.2s ease-in-out;
+        &hover{
+            transition: 0.2s ease-in;
+            background-color: aqua;
+    
+        }
+    }
+}

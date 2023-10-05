@@ -1,4 +1,4 @@
-let userName = prompt('Ingresa tu nombre entrenador')
+/**let userName = prompt('Ingresa tu nombre entrenador')
 alert('bievenido ' + userName)
 let score = '0'
 
@@ -33,3 +33,4 @@ questions.forEach(questions => {
     }
     ;})
     alert('Juego terminado tu puntaje es ' + score)
+    **/
