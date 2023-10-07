@@ -1,6 +1,6 @@
-// let userName = prompt('Ingresa tu nombre entrenador')
-// alert('bievenido ' + userName)
-// let score = '0'
+let userName = prompt('Ingresa tu nombre entrenador')
+alert('bievenido ' + userName)
+let score = '0'
 
 /////////////////////////////////////////////////////////////////////////////
 //Array preguntas
@@ -42,7 +42,7 @@ questions.forEach(questions => {
     **/
     // console.log(questions[(Math.floor(Math.random() * (1 + questions.length - 1)))]);
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Metodo de simulacion con for de manera aleatoria
+/// Metodo de simulacion con for de manera azarosa
 /** 
 for (let index = 0; index < questions.length; index++) {
         
@@ -59,8 +59,6 @@ for (let index = 0; index < questions.length; index++) {
 alert('Juego terminado tu puntaje es ' + score);
 **/
     ///Trabajando con .slice para eliminar preguntas y que no se repitan
-
-    let score = 0;
     let remainingQuestions = questions.slice();
     
     while (remainingQuestions.length > 0) {
@@ -77,6 +75,14 @@ alert('Juego terminado tu puntaje es ' + score);
         }
     
         remainingQuestions.splice(randomIndex, 1);
+
+        setTimeout(() => {
+            
+        }, 5000);
     }
     
     alert('Juego terminado, tu puntaje es: ' + score);
+    
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Vamos a ver lo del temporizador
