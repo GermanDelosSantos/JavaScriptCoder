@@ -59,6 +59,7 @@ for (let index = 0; index < questions.length; index++) {
 alert('Juego terminado tu puntaje es ' + score);
 **/
     ///Trabajando con .slice para eliminar preguntas y que no se repitan
+
     let remainingQuestions = questions.slice();
     
     while (remainingQuestions.length > 0) {
@@ -75,14 +76,8 @@ alert('Juego terminado tu puntaje es ' + score);
         }
     
         remainingQuestions.splice(randomIndex, 1);
-
-        setTimeout(() => {
-            
-        }, 5000);
     }
     
     alert('Juego terminado, tu puntaje es: ' + score);
-    
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Vamos a ver lo del temporizador
+    ///////////////////
