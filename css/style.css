@@ -6,6 +6,8 @@
 
 section {
   background-color: rgba(25, 25, 25, 0.8274509804);
+  display: flex;
+  flex-direction: column;
 }
 section div {
   width: 50%;
