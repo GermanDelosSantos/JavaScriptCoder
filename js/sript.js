@@ -1,4 +1,4 @@
-/**let userName = prompt('Ingresa tu nombre entrenador')
+let userName = prompt('Ingresa tu nombre entrenador')
 alert('bievenido ' + userName)
 let score = '0'
 
@@ -19,6 +19,7 @@ const questions =[{
     correctAnswer:'a'
 }
 ];
+/**
 console.log(questions)
 questions.forEach(questions => {
     let questionPrompt = questions.question + '\n' + questions.option.join('\n');
@@ -34,3 +35,18 @@ questions.forEach(questions => {
     ;})
     alert('Juego terminado tu puntaje es ' + score)
     **/
+    console.log(questions[(Math.floor(Math.random() * (1 + questions.length - 1)))]);
+
+    for (let index = 0; index < questions.length; index++) {
+        
+        let questionRmd = questions[(Math.floor(Math.random() * (1 + questions.length - 1)))];
+        const userAnswer = prompt (questionRmd.question + '\n' + questionRmd.option.join('\n'));
+        
+        if(userAnswer && userAnswer.toLocaleLowerCase() === questionRmd.correctAnswer){
+            alert('Vamo bien campeon');
+            score++;
+        }else{
+            alert('No sea bobo mijo, la respuesta era ' + questions.correctAnswer);
+        }
+    }
+    alert('Juego terminado tu puntaje es ' + score);
