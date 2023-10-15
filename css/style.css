@@ -43,12 +43,16 @@ section p {
   font-style: italic;
   border-radius: 20%;
   border: solid, 2px, aqua;
-  background-color: brown;
+  background-color: rgb(186, 45, 163);
   transition: 0.2s ease-in-out;
 }
-.btn-div button:hover {
-  transition: 0.2s ease-in;
-  background-color: aqua;
+
+.correct {
+  background-color: rgb(40, 181, 52);
+}
+
+.incorrect {
+  background-color: rgb(195, 25, 25);
 }
 
 /*# sourceMappingURL=style.css.map */

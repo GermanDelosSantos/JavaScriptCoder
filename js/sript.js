@@ -1,9 +1,10 @@
-let userName = prompt('Ingresa tu nombre entrenador')
-alert('bievenido ' + userName)
-let score = '0'
+// let userName = prompt('Ingresa tu nombre entrenador')
+// alert('bievenido ' + userName)
+// let score = '0'
 
 /////////////////////////////////////////////////////////////////////////////
 //Array preguntas
+
 const questions =[{
     question: '¿cual es pokemon de fuego inicial de la primera generacion?',
     option:['a)Charmander','B)Boulbasour','c)Squirtle'],
@@ -21,6 +22,7 @@ const questions =[{
     correctAnswer:'a'
 }
 ];
+
 /**
 /////////////////////////////////////////////////////////////////////////////////
 // Metodo de simulacion con ForEach de manera lineal
@@ -59,7 +61,7 @@ for (let index = 0; index < questions.length; index++) {
 alert('Juego terminado tu puntaje es ' + score);
 **/
     ///Trabajando con .slice para eliminar preguntas y que no se repitan
-
+/*
     let remainingQuestions = questions.slice();
     
     while (remainingQuestions.length > 0) {
@@ -81,3 +83,54 @@ alert('Juego terminado tu puntaje es ' + score);
     alert('Juego terminado, tu puntaje es: ' + score);
 
     ///////////////////
+*/
+
+const questionHtmlElement = document.getElementById("questionHtml");
+const optionAButton = document.getElementById("optionA");
+const optionBButton = document.getElementById("optionB");
+const optionCButton = document.getElementById("optionC");
+
+let currentQuestionIndex = 0;
+
+function displayCurrentQuestion() {
+    if (currentQuestionIndex < questions.length) {
+        const currentQuestion = questions[currentQuestionIndex];
+        questionHtmlElement.textContent = currentQuestion.question;
+        optionAButton.textContent = currentQuestion.option[0];
+        optionBButton.textContent = currentQuestion.option[1];
+        optionCButton.textContent = currentQuestion.option[2];
+    } else {
+        questionHtmlElement.textContent = "¡Juego terminado!";
+        optionAButton.style.display = "none";
+        optionBButton.style.display = "none";
+        optionCButton.style.display = "none";
+    }
+}
+
+function checkAnswer(userAnswer) {
+    if (currentQuestionIndex < questions.length) {
+        const currentQuestion = questions[currentQuestionIndex];
+        if (userAnswer === currentQuestion.correctAnswer) {
+            alert("Vamos bien campeon");
+        } else {
+            alert("No seas bobo mijo la correcta era : " + currentQuestion.correctAnswer);
+        }
+        currentQuestionIndex++;
+        setTimeout(displayCurrentQuestion, 1000); 
+    }
+}
+
+optionAButton.addEventListener("click", function () {
+    checkAnswer("a");
+});
+
+optionBButton.addEventListener("click", function () {
+    checkAnswer("b");
+});
+
+optionCButton.addEventListener("click", function () {
+    checkAnswer("c");
+});
+
+displayCurrentQuestion();
+
