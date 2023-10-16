@@ -33,9 +33,10 @@ section{
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         color: #191919;
         font-style: italic;
-        border-radius: 20%;
+        border-radius: 5px;
+        width: 33%;
         border: solid, 2px, aqua;
-        background-color: rgb(186, 45, 163);
+        background-color: #ba2da3;
         transition: 0.2s ease-in-out;
     }
 }

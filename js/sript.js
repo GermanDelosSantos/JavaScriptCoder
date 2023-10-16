@@ -92,31 +92,56 @@ const optionCButton = document.getElementById("optionC");
 
 let currentQuestionIndex = 0;
 
+function colorButons(correct){
+    if(correct === 'a'){
+        optionAButton.style.background = 'green';
+        optionBButton.style.background = 'red';
+        optionCButton.style.background = 'red';
+    }else if(correct === 'b'){
+        optionAButton.style.background = 'red';
+        optionBButton.style.background = 'green';
+        optionCButton.style.background = 'red';
+    }
+    else if(correct === 'c'){
+        optionAButton.style.background = 'red';
+        optionBButton.style.background = 'red';
+        optionCButton.style.background = 'green';
+    }else{
+        optionAButton.style.background = '#ba2da3';
+        optionBButton.style.background = '#ba2da3';
+        optionCButton.style.background = '#ba2da3';
+    }
+};
+
+
+
 function displayCurrentQuestion() {
     if (currentQuestionIndex < questions.length) {
-        const currentQuestion = questions[currentQuestionIndex];
+        const currentQuestion = questions[(Math.floor(Math.random() * (1 + questions.length - 1)))];
         questionHtmlElement.textContent = currentQuestion.question;
         optionAButton.textContent = currentQuestion.option[0];
         optionBButton.textContent = currentQuestion.option[1];
         optionCButton.textContent = currentQuestion.option[2];
+        colorButons();
     } else {
         questionHtmlElement.textContent = "¡Juego terminado!";
         optionAButton.style.display = "none";
         optionBButton.style.display = "none";
         optionCButton.style.display = "none";
     }
+
 }
 
 function checkAnswer(userAnswer) {
     if (currentQuestionIndex < questions.length) {
         const currentQuestion = questions[currentQuestionIndex];
         if (userAnswer === currentQuestion.correctAnswer) {
-            alert("Vamos bien campeon");
+            
         } else {
-            alert("No seas bobo mijo la correcta era : " + currentQuestion.correctAnswer);
         }
         currentQuestionIndex++;
-        setTimeout(displayCurrentQuestion, 1000); 
+        colorButons(currentQuestion.correctAnswer);
+        setTimeout(displayCurrentQuestion, 1000);
     }
 }
 
