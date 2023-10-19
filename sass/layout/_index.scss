@@ -15,8 +15,9 @@ section{
     h1{
         text-align: center;
         color: #b71414d6;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        size: 3rem;
+        font-family: 'Tilt Neon', sans-serif;
+        font-size: 2.5rem;
+        font-weight: bold;
     }
     p{
         color: aqua;
@@ -30,19 +31,18 @@ section{
     gap: 2rem;
     button{
         padding: 0.9rem;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-family: 'Tilt Neon', sans-serif;
         color: #191919;
-        font-style: italic;
+        font-size: 1.5rem;
         border-radius: 5px;
         width: 33%;
         border: solid, 2px, aqua;
         background-color: #ba2da3;
-        transition: 0.2s ease-in-out;
     }
 }
 .correct{
     background-color: rgb(40, 181, 52);
 }
 .incorrect{
-    background-color: rgb(195, 25, 25);
+    background-color: #d61919e0;
 }

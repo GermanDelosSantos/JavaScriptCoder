@@ -22,8 +22,9 @@ section div {
 section h1 {
   text-align: center;
   color: rgba(183, 20, 20, 0.8392156863);
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  size: 3rem;
+  font-family: "Tilt Neon", sans-serif;
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 section p {
   color: aqua;
@@ -38,14 +39,13 @@ section p {
 }
 .btn-div button {
   padding: 0.9rem;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: "Tilt Neon", sans-serif;
   color: #191919;
-  font-style: italic;
+  font-size: 1.5rem;
   border-radius: 5px;
   width: 33%;
   border: solid, 2px, aqua;
   background-color: #ba2da3;
-  transition: 0.2s ease-in-out;
 }
 
 .correct {
@@ -53,7 +53,7 @@ section p {
 }
 
 .incorrect {
-  background-color: rgb(195, 25, 25);
+  background-color: rgba(214, 25, 25, 0.8784313725);
 }
 
 /*# sourceMappingURL=style.css.map */

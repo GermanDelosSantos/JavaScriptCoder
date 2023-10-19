@@ -81,9 +81,9 @@ alert('Juego terminado tu puntaje es ' + score);
     }
     
     alert('Juego terminado, tu puntaje es: ' + score);
-
-    ///////////////////
 */
+    ///////////////////
+
 
 const questionHtmlElement = document.getElementById("questionHtml");
 const optionAButton = document.getElementById("optionA");
@@ -95,16 +95,16 @@ let currentQuestionIndex = 0;
 function colorButons(correct){
     if(correct === 'a'){
         optionAButton.style.background = 'green';
-        optionBButton.style.background = 'red';
-        optionCButton.style.background = 'red';
+        optionBButton.style.background = '#d61919e0';
+        optionCButton.style.background = '#d61919e0';
     }else if(correct === 'b'){
-        optionAButton.style.background = 'red';
+        optionAButton.style.background = '#d61919e0';
         optionBButton.style.background = 'green';
-        optionCButton.style.background = 'red';
+        optionCButton.style.background = '#d61919e0';
     }
     else if(correct === 'c'){
-        optionAButton.style.background = 'red';
-        optionBButton.style.background = 'red';
+        optionAButton.style.background = '#d61919e0';
+        optionBButton.style.background = '#d61919e0';
         optionCButton.style.background = 'green';
     }else{
         optionAButton.style.background = '#ba2da3';
@@ -116,13 +116,15 @@ function colorButons(correct){
 
 
 function displayCurrentQuestion() {
-    if (currentQuestionIndex < questions.length) {
-        const currentQuestion = questions[(Math.floor(Math.random() * (1 + questions.length - 1)))];
+    if (questions.length > 0) {
+        currentQuestionIndex = (Math.floor(Math.random() * (1 + questions.length - 1)));
+        const currentQuestion = questions[currentQuestionIndex];
         questionHtmlElement.textContent = currentQuestion.question;
         optionAButton.textContent = currentQuestion.option[0];
         optionBButton.textContent = currentQuestion.option[1];
         optionCButton.textContent = currentQuestion.option[2];
         colorButons();
+
     } else {
         questionHtmlElement.textContent = "¡Juego terminado!";
         optionAButton.style.display = "none";
@@ -139,8 +141,8 @@ function checkAnswer(userAnswer) {
             
         } else {
         }
-        currentQuestionIndex++;
         colorButons(currentQuestion.correctAnswer);
+        questions.splice(currentQuestionIndex, 1);
         setTimeout(displayCurrentQuestion, 1000);
     }
 }
