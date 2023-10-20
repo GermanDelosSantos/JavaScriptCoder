@@ -48,11 +48,11 @@ section p {
   background-color: #ba2da3;
 }
 
-.correct {
+.correcto {
   background-color: rgb(40, 181, 52);
 }
 
-.incorrect {
+button:not(.correcto) {
   background-color: rgba(214, 25, 25, 0.8784313725);
 }
 

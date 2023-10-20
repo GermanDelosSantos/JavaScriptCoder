@@ -84,37 +84,33 @@ alert('Juego terminado tu puntaje es ' + score);
 */
     ///////////////////
 
-
+//// const de dom
 const questionHtmlElement = document.getElementById("questionHtml");
 const optionAButton = document.getElementById("optionA");
 const optionBButton = document.getElementById("optionB");
 const optionCButton = document.getElementById("optionC");
 
 let currentQuestionIndex = 0;
-
+//// funcion pa pintar botones
 function colorButons(correct){
     if(correct === 'a'){
-        optionAButton.style.background = 'green';
-        optionBButton.style.background = '#d61919e0';
-        optionCButton.style.background = '#d61919e0';
+        optionAButton.classList.add('correcto');
+        optionBButton.classList.add('incorrect');
+        optionCButton.classList.add('incorrect');
     }else if(correct === 'b'){
-        optionAButton.style.background = '#d61919e0';
-        optionBButton.style.background = 'green';
-        optionCButton.style.background = '#d61919e0';
+        optionBButton.classList.add('correcto');
     }
     else if(correct === 'c'){
-        optionAButton.style.background = '#d61919e0';
-        optionBButton.style.background = '#d61919e0';
-        optionCButton.style.background = 'green';
+        optionCButton.classList.add('correcto');
     }else{
-        optionAButton.style.background = '#ba2da3';
-        optionBButton.style.background = '#ba2da3';
-        optionCButton.style.background = '#ba2da3';
+        // optionAButton.style.background = '#ba2da3';
+        // optionBButton.style.background = '#ba2da3';
+        // optionCButton.style.background = '#ba2da3';
     }
 };
 
 
-
+//// funcion pa mostrar las preguntas
 function displayCurrentQuestion() {
     if (questions.length > 0) {
         currentQuestionIndex = (Math.floor(Math.random() * (1 + questions.length - 1)));
@@ -123,6 +119,7 @@ function displayCurrentQuestion() {
         optionAButton.textContent = currentQuestion.option[0];
         optionBButton.textContent = currentQuestion.option[1];
         optionCButton.textContent = currentQuestion.option[2];
+        optionAButton.classList.remove('correcto');
         colorButons();
 
     } else {
@@ -133,7 +130,7 @@ function displayCurrentQuestion() {
     }
 
 }
-
+//// funcion para checkar respuesta
 function checkAnswer(userAnswer) {
     if (currentQuestionIndex < questions.length) {
         const currentQuestion = questions[currentQuestionIndex];
@@ -146,7 +143,7 @@ function checkAnswer(userAnswer) {
         setTimeout(displayCurrentQuestion, 1000);
     }
 }
-
+//// comparando las respuestas segun el boton
 optionAButton.addEventListener("click", function () {
     checkAnswer("a");
 });
@@ -158,6 +155,6 @@ optionBButton.addEventListener("click", function () {
 optionCButton.addEventListener("click", function () {
     checkAnswer("c");
 });
-
+/// corre el jueguito en el navegador
 displayCurrentQuestion();
 

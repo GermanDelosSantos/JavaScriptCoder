@@ -38,11 +38,17 @@ section{
         width: 33%;
         border: solid, 2px, aqua;
         background-color: #ba2da3;
+        // &:hover{
+        //     background-color: #eee;
+        // }
     }
 }
-.correct{
+.correcto{
     background-color: rgb(40, 181, 52);
 }
-.incorrect{
+// .incorrect{
+//     background-color: #d61919e0;
+// }
+button:not(.correcto){
     background-color: #d61919e0;
 }
