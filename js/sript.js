@@ -8,18 +8,18 @@
 const questions =[{
     question: '¿cual es pokemon de fuego inicial de la primera generacion?',
     option:['a)Charmander','B)Boulbasour','c)Squirtle'],
-    correctAnswer:'a'
+    correctAnswer:0
 
 },
 {
     question:'¿Qué tipo de Pokémon es Pikachu?',
     option:['a)Electrico','b)Fuego','c)Agua'],
-    correctAnswer:'a'
+    correctAnswer:0
 },
 {
     question:'¿Cuál es el Pokémon legendario que representa el tiempo?',
     option:['a)Dialga','b)Palkia','c)Giratina'],
-    correctAnswer:'a'
+    correctAnswer:0
 }
 ];
 
@@ -90,25 +90,27 @@ const optionAButton = document.getElementById("optionA");
 const optionBButton = document.getElementById("optionB");
 const optionCButton = document.getElementById("optionC");
 
+
 let currentQuestionIndex = 0;
 //// funcion pa pintar botones
 function colorButons(correct){
-    if(correct === 'a'){
-        optionAButton.classList.add('correcto');
-        optionBButton.classList.add('incorrect');
-        optionCButton.classList.add('incorrect');
-    }else if(correct === 'b'){
-        optionBButton.classList.add('correcto');
-    }
-    else if(correct === 'c'){
-        optionCButton.classList.add('correcto');
-    }else{
-        // optionAButton.style.background = '#ba2da3';
-        // optionBButton.style.background = '#ba2da3';
-        // optionCButton.style.background = '#ba2da3';
-    }
+    let opciones = document.getElementsByClassName('opciones');
+    if(correct+1){
+        for (let i = 0; i < opciones.length; i++) {
+            opciones[i].classList.add('incorrect');
+        }
+        document.getElementsByClassName('opciones')[correct].classList.add('correcto');
+    };
 };
 
+function unColorbuttons(){
+    let opciones = document.getElementsByClassName('opciones');
+    for (let i = 0; i <opciones.length; i++) {
+        opciones[i].classList.remove('incorrect');
+        opciones[i].classList.remove('correcto');
+        
+    }
+};
 
 //// funcion pa mostrar las preguntas
 function displayCurrentQuestion() {
@@ -119,7 +121,6 @@ function displayCurrentQuestion() {
         optionAButton.textContent = currentQuestion.option[0];
         optionBButton.textContent = currentQuestion.option[1];
         optionCButton.textContent = currentQuestion.option[2];
-        optionAButton.classList.remove('correcto');
         colorButons();
 
     } else {
@@ -140,10 +141,13 @@ function checkAnswer(userAnswer) {
         }
         colorButons(currentQuestion.correctAnswer);
         questions.splice(currentQuestionIndex, 1);
-        setTimeout(displayCurrentQuestion, 1000);
+        setTimeout(() => {
+            displayCurrentQuestion();
+            unColorbuttons();
+        }, 1000);
+
     }
-}
-//// comparando las respuestas segun el boton
+}   
 optionAButton.addEventListener("click", function () {
     checkAnswer("a");
 });

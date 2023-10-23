@@ -43,12 +43,10 @@ section{
         // }
     }
 }
-.correcto{
-    background-color: rgb(40, 181, 52);
+
+.incorrect{
+    background-color: #d61919e0 !important;
 }
-// .incorrect{
-//     background-color: #d61919e0;
-// }
-button:not(.correcto){
-    background-color: #d61919e0;
+.correcto{
+    background-color: rgb(40, 181, 52) !important;
 }
