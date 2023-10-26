@@ -1,11 +1,11 @@
 // let userName = prompt('Ingresa tu nombre entrenador')
 // alert('bievenido ' + userName)
-// let score = '0'
+let score = 0
 
 /////////////////////////////////////////////////////////////////////////////
 //Array preguntas
 
-const questions =[{
+let questions =[{
     question: '¿cual es pokemon de fuego inicial de la primera generacion?',
     option:['a)Charmander','B)Boulbasour','c)Squirtle'],
     correctAnswer:0
@@ -23,73 +23,12 @@ const questions =[{
 }
 ];
 
-/**
-/////////////////////////////////////////////////////////////////////////////////
-// Metodo de simulacion con ForEach de manera lineal
-
-console.log(questions)
-questions.forEach(questions => {
-    let questionPrompt = questions.question + '\n' + questions.option.join('\n');
-    const userAnswer = prompt(questionPrompt)
-    
-    if (userAnswer && userAnswer.toLowerCase() === questions.correctAnswer){
-        alert('Vamo bien campeon')
-        score++
-    }else
-    {
-        alert('No sea bobo mijo, la respuesta era ' + questions.correctAnswer)
-    }
-    ;})
-    alert('Juego terminado tu puntaje es ' + score)
-    **/
-    // console.log(questions[(Math.floor(Math.random() * (1 + questions.length - 1)))]);
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Metodo de simulacion con for de manera azarosa
-/** 
-for (let index = 0; index < questions.length; index++) {
-        
-       let questionRmd = questions[(Math.floor(Math.random() * (1 + questions.length - 1)))];
-    const userAnswer = prompt (questionRmd.question + '\n' + questionRmd.option.join('\n'));
-        
-    if(userAnswer && userAnswer.toLocaleLowerCase() === questionRmd.correctAnswer){
-        alert('Vamo bien campeon');
-        score++;
-    }else{
-        alert('No sea bobo mijo, la respuesta era ' + questions.correctAnswer);
-    }
-}
-alert('Juego terminado tu puntaje es ' + score);
-**/
-    ///Trabajando con .slice para eliminar preguntas y que no se repitan
-/*
-    let remainingQuestions = questions.slice();
-    
-    while (remainingQuestions.length > 0) {
-        const randomIndex = Math.floor(Math.random() * remainingQuestions.length);
-        const randomQuestion = remainingQuestions[randomIndex];
-    
-        const userAnswer = prompt(randomQuestion.question + '\n' + randomQuestion.option.join('\n'));
-    
-        if (userAnswer && userAnswer.toLowerCase() === randomQuestion.correctAnswer) {
-            alert('¡Vamo bien campeon!');
-            score++;
-        } else {
-            alert('No sea bobo mijo, la respuesta era ' + randomQuestion.correctAnswer);
-        }
-    
-        remainingQuestions.splice(randomIndex, 1);
-    }
-    
-    alert('Juego terminado, tu puntaje es: ' + score);
-*/
-    ///////////////////
-
 //// const de dom
 const questionHtmlElement = document.getElementById("questionHtml");
 const optionAButton = document.getElementById("optionA");
 const optionBButton = document.getElementById("optionB");
 const optionCButton = document.getElementById("optionC");
-
+const LocalstorageQuestionIndex = localStorage.getItem('questionHtml');
 
 let currentQuestionIndex = 0;
 //// funcion pa pintar botones
@@ -124,7 +63,7 @@ function displayCurrentQuestion() {
         colorButons();
 
     } else {
-        questionHtmlElement.textContent = "¡Juego terminado!";
+        questionHtmlElement.textContent = `Juego terminado ${score > 0 ? 'tu puntaje es : ' + score : + 'Perdiste Bobo'}`;
         optionAButton.style.display = "none";
         optionBButton.style.display = "none";
         optionCButton.style.display = "none";
@@ -136,8 +75,7 @@ function checkAnswer(userAnswer) {
     if (currentQuestionIndex < questions.length) {
         const currentQuestion = questions[currentQuestionIndex];
         if (userAnswer === currentQuestion.correctAnswer) {
-            
-        } else {
+            score++;
         }
         colorButons(currentQuestion.correctAnswer);
         questions.splice(currentQuestionIndex, 1);
@@ -145,20 +83,53 @@ function checkAnswer(userAnswer) {
             displayCurrentQuestion();
             unColorbuttons();
         }, 1000);
-
+        saveCurrentQuestion();
     }
 }   
+function saveCurrentQuestion() {
+    if (questions.length >= 0) {
+        const currentQuestionIndex = Math.floor(Math.random() * questions.length);
+        const currentQuestion = questions[currentQuestionIndex];
+        localStorage.setItem('Savedquestions', JSON.stringify(questions));
+        localStorage.setItem('savedScore', JSON.stringify(score));
+    }
+}
+
+function displaySavedQuestion() {
+    const savedQuestionString = localStorage.getItem('Savedquestions');
+    const savedQuestion = JSON.parse(savedQuestionString);
+    const savedScore = JSON.parse(localStorage.getItem('savedScore'));
+    if (savedQuestion != null && savedQuestion.length > 0 ) {
+        questions = savedQuestion;
+        score = savedScore;
+    }
+    displayCurrentQuestion();
+}
 optionAButton.addEventListener("click", function () {
-    checkAnswer("a");
+    checkAnswer(0);
 });
 
 optionBButton.addEventListener("click", function () {
-    checkAnswer("b");
+    checkAnswer(1);
 });
 
 optionCButton.addEventListener("click", function () {
-    checkAnswer("c");
+    checkAnswer(2);
 });
 /// corre el jueguito en el navegador
-displayCurrentQuestion();
+// displayCurrentQuestion();
+displaySavedQuestion();
 
+let title = document.querySelector("h1");
+let revisedTitle = "";
+let spans = document.getElementsByTagName("span");
+for(i = 0; i < title.innerHTML.length; i++){
+    revisedTitle += `<span>${title.innerHTML[i]}</span>`
+}
+title.innerHTML = revisedTitle;
+
+
+for(i = 0; i < spans.length; i++){
+    spans[i].classList.add("fall");
+    console.log(document.getElementsByTagName("span")[i]);
+    spans[i].setAttribute("style", `transition-delay: ${i/20}s`)}
