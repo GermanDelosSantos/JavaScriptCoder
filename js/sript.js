@@ -31,6 +31,10 @@ const optionCButton = document.getElementById("optionC");
 const LocalstorageQuestionIndex = localStorage.getItem('questionHtml');
 
 let currentQuestionIndex = 0;
+
+
+
+
 //// funcion pa pintar botones
 function colorButons(correct){
     let opciones = document.getElementsByClassName('opciones');
@@ -56,7 +60,18 @@ function displayCurrentQuestion() {
     if (questions.length > 0) {
         currentQuestionIndex = (Math.floor(Math.random() * (1 + questions.length - 1)));
         const currentQuestion = questions[currentQuestionIndex];
-        questionHtmlElement.textContent = currentQuestion.question;
+        questionHtmlElement.innerHTML = '';
+        for (let i = 0; i < currentQuestion.question.length; i++) {
+            const span = document.createElement('span');
+            span.setAttribute('class', 'fall');
+            span.setAttribute('style', `animation-delay: ${i / 20}s`);
+            span.textContent = currentQuestion.question[i];
+            questionHtmlElement.appendChild(span);
+            console.log(currentQuestion.question);
+        }
+
+
+
         optionAButton.textContent = currentQuestion.option[0];
         optionBButton.textContent = currentQuestion.option[1];
         optionCButton.textContent = currentQuestion.option[2];
@@ -85,16 +100,20 @@ function checkAnswer(userAnswer) {
         }, 1000);
         saveCurrentQuestion();
     }
-}   
+}
+//funcion pa guardar el estado de la app   
 function saveCurrentQuestion() {
     if (questions.length >= 0) {
         const currentQuestionIndex = Math.floor(Math.random() * questions.length);
         const currentQuestion = questions[currentQuestionIndex];
+        const nameInputValue = document.getElementById("nameInput").value;
+
         localStorage.setItem('Savedquestions', JSON.stringify(questions));
         localStorage.setItem('savedScore', JSON.stringify(score));
+        localStorage.setItem('savedName', JSON.stringify(nameInputValue));
     }
 }
-
+// funcion pa cargar el estado de la app
 function displaySavedQuestion() {
     const savedQuestionString = localStorage.getItem('Savedquestions');
     const savedQuestion = JSON.parse(savedQuestionString);
@@ -120,16 +139,38 @@ optionCButton.addEventListener("click", function () {
 // displayCurrentQuestion();
 displaySavedQuestion();
 
-let title = document.querySelector("h1");
-let revisedTitle = "";
-let spans = document.getElementsByTagName("span");
-for(i = 0; i < title.innerHTML.length; i++){
-    revisedTitle += `<span>${title.innerHTML[i]}</span>`
-}
-title.innerHTML = revisedTitle;
 
-
-for(i = 0; i < spans.length; i++){
-    spans[i].classList.add("fall");
-    console.log(document.getElementsByTagName("span")[i]);
-    spans[i].setAttribute("style", `transition-delay: ${i/20}s`)}
+window.onload = () => {
+    // Elementos del modal
+    const modal = document.getElementById("myModal");
+    const closeModalBtn = document.getElementById("closeModal");
+    const saveNameBtn = document.getElementById("saveNameBtn");
+    const nameInput = document.getElementById("nameInput");
+  
+    // Abrir el modal automáticamente al cargar la página
+    modal.style.display = "block";
+  
+    // Cerrar el modal
+    closeModalBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+  
+    // Guardar el nombre ingresado y cerrar el modal
+    saveNameBtn.addEventListener("click", () => {
+      const name = nameInput.value;
+      if (name) {
+        alert("Hola, " + name + "!");
+        modal.style.display = "none";
+        saveCurrentQuestion();
+      } else {
+        alert("Por favor, ingresa tu nombre.");
+      }
+    });
+  
+    // Cerrar el modal si se hace clic fuera de él
+    window.addEventListener("click", (event) => {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
+  };
