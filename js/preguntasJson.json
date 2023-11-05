@@ -1,0 +1,17 @@
+[
+    {
+    "question": "¿Cuál es el Pokémon de fuego inicial de la primera generación?",
+    "option": ["a) Charmander", "B) Boulbasour", "c) Squirtle"],
+    "correctAnswer": 0
+    },
+    {
+    "question": "¿Qué tipo de Pokémon es Pikachu?",
+    "option": ["a) Eléctrico", "b) Fuego", "c) Agua"],
+    "correctAnswer": 0
+    },
+    {
+    "question": "¿Cuál es el Pokémon legendario que representa el tiempo?",
+    "option": ["a) Dialga", "b) Palkia", "c) Giratina"],
+    "correctAnswer": 0
+    }
+]

@@ -5,23 +5,7 @@ let score = 0
 /////////////////////////////////////////////////////////////////////////////
 //Array preguntas
 
-let questions =[{
-    question: '¿cual es pokemon de fuego inicial de la primera generacion?',
-    option:['a)Charmander','B)Boulbasour','c)Squirtle'],
-    correctAnswer:0
-
-},
-{
-    question:'¿Qué tipo de Pokémon es Pikachu?',
-    option:['a)Electrico','b)Fuego','c)Agua'],
-    correctAnswer:0
-},
-{
-    question:'¿Cuál es el Pokémon legendario que representa el tiempo?',
-    option:['a)Dialga','b)Palkia','c)Giratina'],
-    correctAnswer:0
-}
-];
+let questions =[];
 
 //// const de dom
 const questionHtmlElement = document.getElementById("questionHtml");
@@ -33,7 +17,21 @@ const LocalstorageQuestionIndex = localStorage.getItem('questionHtml');
 let currentQuestionIndex = 0;
 
 
-
+function traerPregunta () {
+    fetch('./js/preguntasJson.json')
+    .then(res => {
+        if(!res.ok){
+            throw new Error ('No se cargaron las Preguntas');
+        };
+        return res.json();
+    })
+    .then(data => {
+        console.log(data);
+        questions = data;
+        displayCurrentQuestion();
+    })
+    .catch(error => console.log('Hubo un error: ', error));
+};
 
 //// funcion pa pintar botones
 function colorButons(correct){
@@ -63,14 +61,12 @@ function displayCurrentQuestion() {
         questionHtmlElement.innerHTML = '';
         for (let i = 0; i < currentQuestion.question.length; i++) {
             const span = document.createElement('span');
-            span.setAttribute('class', 'fall');
+            span.setAttribute('class', 'fall letras');
             span.setAttribute('style', `animation-delay: ${i / 20}s`);
             span.textContent = currentQuestion.question[i];
             questionHtmlElement.appendChild(span);
             console.log(currentQuestion.question);
         }
-
-
 
         optionAButton.textContent = currentQuestion.option[0];
         optionBButton.textContent = currentQuestion.option[1];
@@ -84,7 +80,7 @@ function displayCurrentQuestion() {
         optionCButton.style.display = "none";
     }
 
-}
+};
 //// funcion para checkar respuesta
 function checkAnswer(userAnswer) {
     if (currentQuestionIndex < questions.length) {
@@ -100,7 +96,7 @@ function checkAnswer(userAnswer) {
         }, 1000);
         saveCurrentQuestion();
     }
-}
+};
 //funcion pa guardar el estado de la app   
 function saveCurrentQuestion() {
     if (questions.length >= 0) {
@@ -121,9 +117,11 @@ function displaySavedQuestion() {
     if (savedQuestion != null && savedQuestion.length > 0 ) {
         questions = savedQuestion;
         score = savedScore;
+        displayCurrentQuestion();
+    }else {
+        traerPregunta();
     }
-    displayCurrentQuestion();
-}
+};
 optionAButton.addEventListener("click", function () {
     checkAnswer(0);
 });
@@ -136,7 +134,7 @@ optionCButton.addEventListener("click", function () {
     checkAnswer(2);
 });
 /// corre el jueguito en el navegador
-// displayCurrentQuestion();
+//  displayCurrentQuestion();
 displaySavedQuestion();
 
 
@@ -146,31 +144,25 @@ window.onload = () => {
     const closeModalBtn = document.getElementById("closeModal");
     const saveNameBtn = document.getElementById("saveNameBtn");
     const nameInput = document.getElementById("nameInput");
-  
+
     // Abrir el modal automáticamente al cargar la página
     modal.style.display = "block";
-  
+
     // Cerrar el modal
     closeModalBtn.addEventListener("click", () => {
-      modal.style.display = "none";
+    modal.style.display = "none";
     });
-  
+
     // Guardar el nombre ingresado y cerrar el modal
     saveNameBtn.addEventListener("click", () => {
-      const name = nameInput.value;
-      if (name) {
+    const name = nameInput.value;
+if (name) {
         alert("Hola, " + name + "!");
         modal.style.display = "none";
-        saveCurrentQuestion();
-      } else {
+
+        displaySavedQuestion();
+    } else {
         alert("Por favor, ingresa tu nombre.");
-      }
+    }
     });
-  
-    // Cerrar el modal si se hace clic fuera de él
-    window.addEventListener("click", (event) => {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    });
-  };
+    };
