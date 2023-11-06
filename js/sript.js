@@ -1,11 +1,14 @@
-// let userName = prompt('Ingresa tu nombre entrenador')
-// alert('bievenido ' + userName)
-let score = 0
 
-/////////////////////////////////////////////////////////////////////////////
-//Array preguntas
+// Variables para el modal
+const modal = document.getElementById("myModal");
+const closeModalBtn = document.getElementById("closeModal");
+const saveNameBtn = document.getElementById("saveNameBtn");
+const nameInput = document.getElementById("nameInput");
 
-let questions =[];
+// Variables globales
+let score = 0;
+let questions = [];
+let currentQuestionIndex = 0;
 
 //// const de dom
 const questionHtmlElement = document.getElementById("questionHtml");
@@ -14,9 +17,49 @@ const optionBButton = document.getElementById("optionB");
 const optionCButton = document.getElementById("optionC");
 const LocalstorageQuestionIndex = localStorage.getItem('questionHtml');
 
-let currentQuestionIndex = 0;
 
+// Cargar el estado de la app al cargar la página
+window.onload = () => {
+    const savedName = localStorage.getItem('savedName');
+    const savedScore = JSON.parse(localStorage.getItem('savedScore'));
 
+    if (savedName) {
+        sweetAlert(savedName, savedScore);
+        displaySavedQuestion();
+    } else {
+        // Abrir el modal automáticamente al cargar la página
+        modal.style.display = "block";
+    }
+    // Cerrar el modal
+    closeModalBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+    });
+};
+
+//sweetAlert
+const sweetAlert = (savedName, savedScore) => {
+    Swal.fire({
+        title: `Bienvenido de nuevo ${savedName}`,
+        text: `Tu puntaje actual es: ${savedScore}`,
+        icon: "success"
+    });
+}
+
+const sweetAlertBasic = (name) =>{
+    Swal.fire(`Bienvenido entrenador ${name}`);
+}
+// Función para guardar el nombre del usuario
+function saveUserName(name) {
+    localStorage.setItem('savedName', name);
+}
+// funcion para dar la bienvenida si el user ya esta registrado
+function displayBienvenida(savedName) {
+    const savedScore = JSON.parse(localStorage.getItem('savedScore'));
+
+    if (savedName === nameInput.value) {
+        sweetAlert(savedName, savedScore);
+    }
+}
 function traerPregunta () {
     fetch('./js/preguntasJson.json')
     .then(res => {
@@ -102,13 +145,11 @@ function saveCurrentQuestion() {
     if (questions.length >= 0) {
         const currentQuestionIndex = Math.floor(Math.random() * questions.length);
         const currentQuestion = questions[currentQuestionIndex];
-        const nameInputValue = document.getElementById("nameInput").value;
 
         localStorage.setItem('Savedquestions', JSON.stringify(questions));
         localStorage.setItem('savedScore', JSON.stringify(score));
-        localStorage.setItem('savedName', JSON.stringify(nameInputValue));
     }
-}
+};
 // funcion pa cargar el estado de la app
 function displaySavedQuestion() {
     const savedQuestionString = localStorage.getItem('Savedquestions');
@@ -122,6 +163,24 @@ function displaySavedQuestion() {
         traerPregunta();
     }
 };
+
+// Agregar el evento click al botón saveNameBtn
+saveNameBtn.addEventListener("click", () => {
+    const name = nameInput.value;
+    const savedName = localStorage.getItem('savedName');
+    const savedScore = JSON.parse(localStorage.getItem('savedScore'));
+
+    if (savedName === name) {
+        sweetAlert();
+    } else {
+        saveUserName(name);
+        sweetAlertBasic(name);
+    }
+
+    modal.style.display = "none";
+    displaySavedQuestion();
+});
+
 optionAButton.addEventListener("click", function () {
     checkAnswer(0);
 });
@@ -134,35 +193,4 @@ optionCButton.addEventListener("click", function () {
     checkAnswer(2);
 });
 /// corre el jueguito en el navegador
-//  displayCurrentQuestion();
 displaySavedQuestion();
-
-
-window.onload = () => {
-    // Elementos del modal
-    const modal = document.getElementById("myModal");
-    const closeModalBtn = document.getElementById("closeModal");
-    const saveNameBtn = document.getElementById("saveNameBtn");
-    const nameInput = document.getElementById("nameInput");
-
-    // Abrir el modal automáticamente al cargar la página
-    modal.style.display = "block";
-
-    // Cerrar el modal
-    closeModalBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-    });
-
-    // Guardar el nombre ingresado y cerrar el modal
-    saveNameBtn.addEventListener("click", () => {
-    const name = nameInput.value;
-if (name) {
-        alert("Hola, " + name + "!");
-        modal.style.display = "none";
-
-        displaySavedQuestion();
-    } else {
-        alert("Por favor, ingresa tu nombre.");
-    }
-    });
-    };

@@ -17,7 +17,8 @@ section{
     flex-direction: column;
     align-items: center;
     position: relative;
-    div{
+    
+    .indexDiv{
         width: 50%;
         height: 50%;
         align-items: center;
@@ -93,18 +94,31 @@ section{
     padding: 20px;
     border: 1px solid #888;
     width: 60%;
+    h2{
+        font-family: 'Tilt Neon', sans-serif;
+        color: #045e64;
+    }
 }
-.closeModal{
-    width: 100px;
-    height: 25px;
 
-}
 .close {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    align-items: center;
+    background-color: #2d2a2aee;
+    color: #eee;
+    width: 5%;
+    height: 10%;
+    padding: 8px;
     float: right;
     cursor: pointer;
+    transition: 0.3s ease-in-out;
+    &:hover{
+        transition: 0.3s ease-in-out;
+        background-color: #a04545;
+        border-radius: 10%;
+        box-shadow: 5px 5px 5px 0 #191919;
+    }
 }
 
   /* Estilos para el input y botones */
@@ -114,14 +128,18 @@ input[type="text"] {
     margin: 10px 0;
 }
 
-button {
+#saveNameBtn {
     padding: 10px 20px;
     background-color: #4CAF50;
     color: #fff;
     border: none;
     cursor: pointer;
-}
+    transition: 0.3s ease-in-out;
+    &:hover{
+            transition: 0.3s ease-in-out;
+            background-color: #459aa0;
+            border-radius: 10%;
+            box-shadow: 5px 5px 5px 0 #191919;
+        }
+    }
 
-button:hover {
-    background-color: #45a049;
-}
