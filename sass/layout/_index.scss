@@ -9,25 +9,65 @@
     }
 }
 
+@keyframes slide { 
+    0% { 
+        transform: translateX(-25%); 
+    } 
+    100% { 
+        transform: translateX(25%); 
+    } 
+}
+
+
+body { 
+    display: grid; 
+    place-items: center; 
+    color: yellow;
+    width: 100%;
+} 
+
+.main__bg { 
+    background-image: linear-gradient(-60deg, #383f84 50%, #5e8859 50%); 
+    animation: slide 3s ease-in-out infinite alternate; 
+    position: fixed; 
+    top: 0; 
+    bottom: 0; 
+    left: -50%; 
+    right: -50%; 
+    opacity: 0.5; 
+    z-index: -1; 
+}
+
+.layer1 { 
+    animation-direction: alternate-reverse; 
+    animation-duration: 4s; 
+} 
+
+.layer2 { 
+    animation-duration: 5s; 
+} 
 
 
 section{
-    background-color: #191919d3;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
+    width: 80%;
+    height: 600px;
     
     .indexDiv{
-        width: 50%;
+        width: 80%;
         height: 50%;
         align-items: center;
         justify-content: center;
         background-color: #191919aa;
-        margin: 4rem;
-        padding: 3rem;
+        border: 3px solid #eee;
+        margin-top: 1rem;
+        padding: 1rem;
     }
     h1{
+        margin: 5px;
         text-align: center;
         color: #b71414d6;
         font-family: 'Tilt Neon', sans-serif;
@@ -48,19 +88,27 @@ section{
 .btn-div{
     display: flex;
     justify-content: space-between;
+    background-color: #191919af;
     gap: 2rem;
+    width: 80%;
+    margin-top: 4rem;
+    padding: 0.9rem;
     button{
+        margin: 5px;
         padding: 0.9rem;
         font-family: 'Tilt Neon', sans-serif;
         color: #191919;
         font-size: 1.5rem;
-        border-radius: 5px;
+        border-radius: 15%;
         width: 33%;
-        border: solid, 2px, aqua;
+        border: 2px solid #eee;
         background-color: #ba2da3;
-        // &:hover{
-        //     background-color: #eee;
-        // }
+        transition: 0.5s ease-in-out;
+        &:hover{
+            background-color: #0e9d10;
+            transition: 0.5s ease-in-out;
+
+        }
     }
 }
 
@@ -101,22 +149,19 @@ section{
 }
 
 .close {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+    text-align: center;
     background-color: #2d2a2aee;
     color: #eee;
-    width: 5%;
+    width: 6%;
     height: 10%;
     padding: 8px;
+    border-radius: 50%;
     float: right;
     cursor: pointer;
     transition: 0.3s ease-in-out;
     &:hover{
         transition: 0.3s ease-in-out;
-        background-color: #a04545;
-        border-radius: 10%;
+        background-color: #bb0707;
         box-shadow: 5px 5px 5px 0 #191919;
     }
 }

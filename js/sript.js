@@ -43,15 +43,17 @@ const sweetAlert = (savedName, savedScore) => {
         text: `Tu puntaje actual es: ${savedScore}`,
         icon: "success"
     });
-}
+};
 
 const sweetAlertBasic = (name) =>{
     Swal.fire(`Bienvenido entrenador ${name}`);
-}
+};
+
 // Función para guardar el nombre del usuario
 function saveUserName(name) {
     localStorage.setItem('savedName', name);
-}
+};
+
 // funcion para dar la bienvenida si el user ya esta registrado
 function displayBienvenida(savedName) {
     const savedScore = JSON.parse(localStorage.getItem('savedScore'));
@@ -59,7 +61,8 @@ function displayBienvenida(savedName) {
     if (savedName === nameInput.value) {
         sweetAlert(savedName, savedScore);
     }
-}
+};
+
 function traerPregunta () {
     fetch('./js/preguntasJson.json')
     .then(res => {
@@ -121,6 +124,7 @@ function displayCurrentQuestion() {
         optionAButton.style.display = "none";
         optionBButton.style.display = "none";
         optionCButton.style.display = "none";
+        localStorage.clear();
     }
 
 };
@@ -193,4 +197,4 @@ optionCButton.addEventListener("click", function () {
     checkAnswer(2);
 });
 /// corre el jueguito en el navegador
-displaySavedQuestion();
+// displaySavedQuestion();

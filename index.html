@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Javascript</title>
-    <!-- Tailwind -->
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
-    <!-- Toastify-->
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"> -->
     <!-- css -->
     <link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
+
+    <div class="main__bg"></div> 
+    <div class="main__bg layer1"></div> 
+    <div class="main__bg layer2"></div> 
+
     <main class="index-main, items-center">
         <section class="items-center">
             <!-- Modal -->
@@ -24,7 +25,7 @@
     <div class="modal-content">
     <h2>Ingresa tu nombre Entrenador</h2>
     <input type="text" id="nameInput" placeholder="Tu nombre">
-    <button id="saveNameBtn">Guardar</button> <button id="closeModal" class="close">X</button>
+    <button id="saveNameBtn">Guardar</button> <span id="closeModal" class="close">X</span>
     </div>
 </div> 
             <div class="indexDiv">
@@ -47,8 +48,6 @@
 
     <!--SweetAlert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Toastify -->
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script> -->
     <!-- JS -->
     <script defer src="js/sript.js"></script>
 </body>
