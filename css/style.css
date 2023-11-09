@@ -111,7 +111,7 @@ section h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(25, 25, 25, 0.6862745098);
+  background-color: rgba(25, 25, 25, 0.4823529412);
   gap: 2rem;
   width: 80%;
   margin-top: 4rem;
@@ -198,6 +198,7 @@ section h1 {
 }
 .bubbly-button.animate:after {
   display: block;
+  opacity: 0.8%;
   animation: bottomBubbles ease-in-out 1s forwards;
 }
 

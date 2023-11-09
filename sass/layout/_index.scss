@@ -113,7 +113,7 @@ section{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #191919af;
+    background-color: #1919197b;
     gap: 2rem;
     width: 80%;
     margin-top: 4rem;
@@ -224,6 +224,7 @@ section{
     }
     &:after{
         display: block;
+        opacity: 0.8%;
         animation: bottomBubbles ease-in-out 1s forwards;
     }
     }
