@@ -1,22 +1,22 @@
 
 // Variables para el modal
-const modal = document.getElementById("myModal");
-const closeModalBtn = document.getElementById("closeModal");
-const saveNameBtn = document.getElementById("saveNameBtn");
-const nameInput = document.getElementById("nameInput");
-
+const modal = document.getElementById('myModal');
+const closeModalBtn = document.getElementById('closeModal');
+const saveNameBtn = document.getElementById('saveNameBtn');
+const nameInput = document.getElementById('nameInput');
 // Variables globales
 let score = 0;
 let questions = [];
 let currentQuestionIndex = 0;
 
 //// const de dom
-const questionHtmlElement = document.getElementById("questionHtml");
-const optionAButton = document.getElementById("optionA");
-const optionBButton = document.getElementById("optionB");
-const optionCButton = document.getElementById("optionC");
+const questionHtmlElement = document.getElementById('questionHtml');
+const optionAButton = document.getElementById('optionA');
+const optionBButton = document.getElementById('optionB');
+const optionCButton = document.getElementById('optionC');
 const LocalstorageQuestionIndex = localStorage.getItem('questionHtml');
-
+const buttonDiv = document.getElementById('buttonDiv');
+const resetButton = document.getElementById('resetButton');
 
 // Cargar el estado de la app al cargar la página
 window.onload = () => {
@@ -28,11 +28,11 @@ window.onload = () => {
         displaySavedQuestion();
     } else {
         // Abrir el modal automáticamente al cargar la página
-        modal.style.display = "block";
+        modal.style.display = 'block';
     }
     // Cerrar el modal
-    closeModalBtn.addEventListener("click", () => {
-    modal.style.display = "none";
+    closeModalBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
     });
 };
 
@@ -121,12 +121,18 @@ function displayCurrentQuestion() {
 
     } else {
         questionHtmlElement.textContent = `Juego terminado ${score > 0 ? 'tu puntaje es : ' + score : + 'Perdiste Bobo'}`;
-        optionAButton.style.display = "none";
-        optionBButton.style.display = "none";
-        optionCButton.style.display = "none";
-        localStorage.clear();
-    }
+        optionAButton.style.display = 'none';
+        optionBButton.style.display = 'none';
+        optionCButton.style.display = 'none';
+        const resetButton = document.createElement('button');
+        resetButton.setAttribute('id', 'resetButton');
+        resetButton.textContent = ('Reniciar Juego')
+        buttonDiv.append(resetButton);
 
+        resetButton.addEventListener('click', function () {
+            restartGame();
+        });
+    }
 };
 //// funcion para checkar respuesta
 function checkAnswer(userAnswer) {
@@ -167,9 +173,31 @@ function displaySavedQuestion() {
         traerPregunta();
     }
 };
+// funcion para reiniciar el juego
+function restartGame() {
+    localStorage.clear();
+    window.location.reload();
+}
+//funcion para Animar el botones
+var animateButton = function(e) {
 
+    e.preventDefault;
+    //reset animation
+    e.target.classList.remove('animate');
+    
+    e.target.classList.add('animate');
+    setTimeout(function(){
+    e.target.classList.remove('animate');
+    },1000);
+};
+
+var bubblyButtons = document.getElementsByClassName("bubbly-button");
+
+for (var i = 0; i < bubblyButtons.length; i++) {
+    bubblyButtons[i].addEventListener('click', animateButton, false);
+}
 // Agregar el evento click al botón saveNameBtn
-saveNameBtn.addEventListener("click", () => {
+saveNameBtn.addEventListener('click', () => {
     const name = nameInput.value;
     const savedName = localStorage.getItem('savedName');
     const savedScore = JSON.parse(localStorage.getItem('savedScore'));
@@ -185,15 +213,16 @@ saveNameBtn.addEventListener("click", () => {
     displaySavedQuestion();
 });
 
-optionAButton.addEventListener("click", function () {
+
+optionAButton.addEventListener('click', function () {
     checkAnswer(0);
 });
 
-optionBButton.addEventListener("click", function () {
+optionBButton.addEventListener('click', function () {
     checkAnswer(1);
 });
 
-optionCButton.addEventListener("click", function () {
+optionCButton.addEventListener('click', function () {
     checkAnswer(2);
 });
 /// corre el jueguito en el navegador
