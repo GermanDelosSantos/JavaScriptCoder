@@ -220,7 +220,7 @@ section{
     &.animate{
     &:before{
         display: block;
-        animation: topBubbles ease-in-out 1s forwards;
+        animation: topBubbles ease-in-out 0.75s forwards;
     }
     &:after{
         display: block;
