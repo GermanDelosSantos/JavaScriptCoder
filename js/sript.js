@@ -40,7 +40,7 @@ window.onload = () => {
 const sweetAlert = (savedName, savedScore) => {
     Swal.fire({
         title: `Bienvenido de nuevo ${savedName}`,
-        text: `Tu puntaje actual es: ${savedScore}`,
+        text: `Tu puntaje actual es: ${savedScore === null ? '0' : savedScore}`,
         icon: "success"
     });
 };
