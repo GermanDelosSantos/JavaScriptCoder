@@ -4,6 +4,7 @@ const modal = document.getElementById('myModal');
 const closeModalBtn = document.getElementById('closeModal');
 const saveNameBtn = document.getElementById('saveNameBtn');
 const nameInput = document.getElementById('nameInput');
+
 // Variables globales
 let score = 0;
 let questions = [];
@@ -17,6 +18,7 @@ const optionCButton = document.getElementById('optionC');
 const LocalstorageQuestionIndex = localStorage.getItem('questionHtml');
 const buttonDiv = document.getElementById('buttonDiv');
 const resetButton = document.getElementById('resetButton');
+const timer = document.getElementById('timer');
 
 // Cargar el estado de la app al cargar la página
 window.onload = () => {
@@ -36,33 +38,183 @@ window.onload = () => {
     });
 };
 
-//sweetAlert
-const sweetAlert = (savedName, savedScore) => {
-    Swal.fire({
-        title: `Bienvenido de nuevo ${savedName}`,
-        text: `Tu puntaje actual es: ${savedScore === null ? '0' : savedScore}`,
-        icon: "success"
-    });
-};
-
-const sweetAlertBasic = (name) =>{
-    Swal.fire(`Bienvenido entrenador ${name}`);
-};
-
-// Función para guardar el nombre del usuario
-function saveUserName(name) {
-    localStorage.setItem('savedName', name);
-};
-
-// funcion para dar la bienvenida si el user ya esta registrado
-function displayBienvenida(savedName) {
+// Agregar el evento click al botón saveNameBtn
+saveNameBtn.addEventListener('click', () => {
+    const name = nameInput.value;
+    const savedName = localStorage.getItem('savedName');
     const savedScore = JSON.parse(localStorage.getItem('savedScore'));
 
-    if (savedName === nameInput.value) {
+    if (savedName === name) {
         sweetAlert(savedName, savedScore);
+        displaySavedQuestion();
+    } else {
+        saveUserName(name);
+        sweetAlertBasic(name);
+        startTimer();
+    }
+
+    modal.style.display = "none";
+    displaySavedQuestion();
+});
+
+
+// // Función para iniciar el temporizador
+// function startTimer() {
+//     let timeLeft = 15;
+
+//     countdownTimer = setInterval(() => {
+//         if (timeLeft > 0) {
+//             timer.innerHTML = `<span>Tiempo restante: ${timeLeft} segundos</span>`;
+//             timeLeft--;
+//             console.log(timeLeft);
+//         } else {
+//             timeLeft = 15;
+//             if (currentQuestionIndex <= questions.length) {
+//             questions.splice(currentQuestionIndex, 1);
+//                 displayCurrentQuestion();
+//             }
+//         }
+//     }, 1000);
+// }
+
+// Función para iniciar el temporizador
+function startTimer() {
+    let timeLeft = 15;
+
+    function updateTimer() {
+        if (timeLeft > 0) {
+            timer.innerHTML = `<span>Tiempo restante: ${timeLeft} segundos</span>`;
+            timeLeft--;
+            console.log(timeLeft);
+            setTimeout(updateTimer, 1000);
+        } else {
+            timeLeft = 15;
+            if (currentQuestionIndex <= questions.length) {
+                questions.splice(currentQuestionIndex, 1);
+                displayCurrentQuestion();
+            }
+        }
+    }
+
+    // Inicia el temporizador por primera vez
+    updateTimer();
+}
+
+// funcion pa cargar el estado de la app
+function displaySavedQuestion() {
+    const savedQuestionString = localStorage.getItem('Savedquestions');
+    const savedQuestion = JSON.parse(savedQuestionString);
+    const savedScore = JSON.parse(localStorage.getItem('savedScore'));
+    if (savedQuestion != null && savedQuestion.length > 0 ) {
+        questions = savedQuestion;
+        score = savedScore;
+        startTimer();
+        displayCurrentQuestion();
+    }else {
+        traerPregunta();
     }
 };
 
+// funcion pa mostrar las preguntas
+        function displayCurrentQuestion() {
+            if (questions.length > 0) {
+                currentQuestionIndex = (Math.floor(Math.random() * (1 + questions.length - 1)));
+                const currentQuestion = questions[currentQuestionIndex];
+                questionHtmlElement.innerHTML = '';
+                for (let i = 0; i < currentQuestion.question.length; i++) {
+                    const span = document.createElement('span');
+                    span.setAttribute('class', 'fall letras');
+                    span.setAttribute('style', `animation-delay: ${i / 20}s`);
+                    span.textContent = currentQuestion.question[i];
+                    questionHtmlElement.appendChild(span);
+                    console.log(currentQuestion.question);
+                }
+
+
+        optionAButton.textContent = currentQuestion.option[0];
+        optionBButton.textContent = currentQuestion.option[1];
+        optionCButton.textContent = currentQuestion.option[2];
+        colorButons();
+
+        // Agregar eventos click para los botones de opción
+        optionAButton.addEventListener('click',() => {
+            checkAnswer(0);
+        });
+
+        optionBButton.addEventListener('click',() => {
+            checkAnswer(1);
+        });
+
+        optionCButton.addEventListener('click',() => {
+            checkAnswer(2);
+        });
+
+    } else {
+        timer.remove();
+        questionHtmlElement.textContent = `Juego terminado ${score > 0 ? 'tu puntaje es : ' + score : + 'Perdiste Bobo'}`;
+        optionAButton.style.display = 'none';
+        optionBButton.style.display = 'none';
+        optionCButton.style.display = 'none';
+
+        const resetButton = document.createElement('button');
+        resetButton.setAttribute('id', 'resetButton');
+        resetButton.textContent = ('Reniciar Juego')
+        buttonDiv.append(resetButton);
+
+        resetButton.addEventListener('click',() => {
+            localStorage.clear();
+            window.location.reload();
+        });
+    }
+};
+
+//// funcion para checkar respuesta
+// function checkAnswer(userAnswer) {
+//     if (currentQuestionIndex < questions.length) {
+//         const currentQuestion = questions[currentQuestionIndex];
+
+//         if (userAnswer === currentQuestion.correctAnswer) {
+//             score++;
+//         }
+//         colorButons(currentQuestion.correctAnswer);
+//         questions.splice(currentQuestionIndex, 1);
+//         setTimeout(() => {
+//             displayCurrentQuestion();
+//             unColorbuttons();
+//         }, 1000);
+//         saveCurrentQuestion();
+//         console.log(questions.length);
+//         console.log(currentQuestionIndex)
+//     }
+// };
+function checkAnswer(userAnswer) {
+    if (currentQuestionIndex < questions.length) {
+        const currentQuestion = questions[currentQuestionIndex];
+        if (userAnswer === currentQuestion.correctAnswer) {
+            score++;
+        }
+        colorButons(currentQuestion.correctAnswer);
+        questions.splice(currentQuestionIndex, 1);
+        setTimeout(() => {
+            displayCurrentQuestion();
+            unColorbuttons();
+        }, 1000);
+        saveCurrentQuestion();
+    }
+};
+
+//funcion pa guardar el estado de la app   
+function saveCurrentQuestion() {
+    if (questions.length >= 0) {
+        // const currentQuestionIndex = Math.floor(Math.random() * questions.length);
+        // const currentQuestion = questions[currentQuestionIndex];
+
+        localStorage.setItem('Savedquestions', JSON.stringify(questions));
+        localStorage.setItem('savedScore', JSON.stringify(score));
+    }
+};
+
+// funcion con Fetch para traer la data al array questions
 function traerPregunta () {
     fetch('./js/preguntasJson.json')
     .then(res => {
@@ -79,6 +231,20 @@ function traerPregunta () {
     .catch(error => console.log('Hubo un error: ', error));
 };
 
+// Función para guardar el nombre del usuario
+function saveUserName(name) {
+    localStorage.setItem('savedName', name);
+};
+
+// funcion para dar la bienvenida si el user ya esta registrado
+function displayBienvenida(savedName) {
+    const savedScore = JSON.parse(localStorage.getItem('savedScore'));
+
+    if (savedName === nameInput.value) {
+        sweetAlert(savedName, savedScore);
+    }
+};
+
 //// funcion pa pintar botones
 function colorButons(correct){
     let opciones = document.getElementsByClassName('opciones');
@@ -89,7 +255,7 @@ function colorButons(correct){
         document.getElementsByClassName('opciones')[correct].classList.add('correcto');
     };
 };
-
+// funcion para sacar los colores de los botones
 function unColorbuttons(){
     let opciones = document.getElementsByClassName('opciones');
     for (let i = 0; i <opciones.length; i++) {
@@ -99,87 +265,21 @@ function unColorbuttons(){
     }
 };
 
-//// funcion pa mostrar las preguntas
-function displayCurrentQuestion() {
-    if (questions.length > 0) {
-        currentQuestionIndex = (Math.floor(Math.random() * (1 + questions.length - 1)));
-        const currentQuestion = questions[currentQuestionIndex];
-        questionHtmlElement.innerHTML = '';
-        for (let i = 0; i < currentQuestion.question.length; i++) {
-            const span = document.createElement('span');
-            span.setAttribute('class', 'fall letras');
-            span.setAttribute('style', `animation-delay: ${i / 20}s`);
-            span.textContent = currentQuestion.question[i];
-            questionHtmlElement.appendChild(span);
-            console.log(currentQuestion.question);
-        }
-
-        optionAButton.textContent = currentQuestion.option[0];
-        optionBButton.textContent = currentQuestion.option[1];
-        optionCButton.textContent = currentQuestion.option[2];
-        colorButons();
-
-    } else {
-        questionHtmlElement.textContent = `Juego terminado ${score > 0 ? 'tu puntaje es : ' + score : + 'Perdiste Bobo'}`;
-        optionAButton.style.display = 'none';
-        optionBButton.style.display = 'none';
-        optionCButton.style.display = 'none';
-        const resetButton = document.createElement('button');
-        resetButton.setAttribute('id', 'resetButton');
-        resetButton.textContent = ('Reniciar Juego')
-        buttonDiv.append(resetButton);
-
-        resetButton.addEventListener('click', function () {
-            restartGame();
-        });
-    }
+//sweetAlert
+const sweetAlert = (savedName, savedScore) => {
+    Swal.fire({
+        title: `Bienvenido de nuevo ${savedName}`,
+        text: `Tu puntaje actual es: ${savedScore === null ? '0' : savedScore}`,
+        icon: "success"
+    });
 };
-//// funcion para checkar respuesta
-function checkAnswer(userAnswer) {
-    if (currentQuestionIndex < questions.length) {
-        const currentQuestion = questions[currentQuestionIndex];
-        if (userAnswer === currentQuestion.correctAnswer) {
-            score++;
-        }
-        colorButons(currentQuestion.correctAnswer);
-        questions.splice(currentQuestionIndex, 1);
-        setTimeout(() => {
-            displayCurrentQuestion();
-            unColorbuttons();
-        }, 1000);
-        saveCurrentQuestion();
-    }
-};
-//funcion pa guardar el estado de la app   
-function saveCurrentQuestion() {
-    if (questions.length >= 0) {
-        const currentQuestionIndex = Math.floor(Math.random() * questions.length);
-        const currentQuestion = questions[currentQuestionIndex];
 
-        localStorage.setItem('Savedquestions', JSON.stringify(questions));
-        localStorage.setItem('savedScore', JSON.stringify(score));
-    }
+const sweetAlertBasic = (name) =>{
+    Swal.fire(`Bienvenido entrenador ${name}`);
 };
-// funcion pa cargar el estado de la app
-function displaySavedQuestion() {
-    const savedQuestionString = localStorage.getItem('Savedquestions');
-    const savedQuestion = JSON.parse(savedQuestionString);
-    const savedScore = JSON.parse(localStorage.getItem('savedScore'));
-    if (savedQuestion != null && savedQuestion.length > 0 ) {
-        questions = savedQuestion;
-        score = savedScore;
-        displayCurrentQuestion();
-    }else {
-        traerPregunta();
-    }
-};
-// funcion para reiniciar el juego
-function restartGame() {
-    localStorage.clear();
-    window.location.reload();
-}
-//funcion para Animar el botones
-var animateButton = function(e) {
+
+//funcion para Animar los botones
+let animateButton = function(e) {
 
     e.preventDefault;
     //reset animation
@@ -191,39 +291,9 @@ var animateButton = function(e) {
     },700);
 };
 
-var bubblyButtons = document.getElementsByClassName("bubbly-button");
+let bubblyButtons = document.getElementsByClassName("bubbly-button");
 
-for (var i = 0; i < bubblyButtons.length; i++) {
+for (let i = 0; i < bubblyButtons.length; i++) {
     bubblyButtons[i].addEventListener('click', animateButton, false);
 }
-// Agregar el evento click al botón saveNameBtn
-saveNameBtn.addEventListener('click', () => {
-    const name = nameInput.value;
-    const savedName = localStorage.getItem('savedName');
-    const savedScore = JSON.parse(localStorage.getItem('savedScore'));
 
-    if (savedName === name) {
-        sweetAlert();
-    } else {
-        saveUserName(name);
-        sweetAlertBasic(name);
-    }
-
-    modal.style.display = "none";
-    displaySavedQuestion();
-});
-
-
-optionAButton.addEventListener('click', function () {
-    checkAnswer(0);
-});
-
-optionBButton.addEventListener('click', function () {
-    checkAnswer(1);
-});
-
-optionCButton.addEventListener('click', function () {
-    checkAnswer(2);
-});
-/// corre el jueguito en el navegador
-// displaySavedQuestion();

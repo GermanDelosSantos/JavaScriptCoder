@@ -159,7 +159,7 @@ section h1 {
   cursor: pointer;
   position: relative;
   transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
-  box-shadow: 0 2px 25px rgba(255, 0, 130, 0.5);
+  box-shadow: 0 2px 25px rgb(255, 0, 132);
 }
 .bubbly-button:focus {
   outline: 0;
@@ -190,11 +190,11 @@ section h1 {
 .bubbly-button:active {
   transform: scale(0.9);
   background-color: #e60074;
-  box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+  box-shadow: 0 2px 25px rgb(255, 0, 132);
 }
 .bubbly-button.animate:before {
   display: block;
-  animation: topBubbles ease-in-out 0.75s forwards;
+  animation: topBubbles ease-in-out 0.7s forwards;
 }
 .bubbly-button.animate:after {
   display: block;
