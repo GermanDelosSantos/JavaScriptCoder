@@ -9,6 +9,7 @@ const nameInput = document.getElementById('nameInput');
 let score = 0;
 let questions = [];
 let currentQuestionIndex = 0;
+let countdownTimer;
 
 //// const de dom
 const questionHtmlElement = document.getElementById('questionHtml');
@@ -50,7 +51,6 @@ saveNameBtn.addEventListener('click', () => {
     } else {
         saveUserName(name);
         sweetAlertBasic(name);
-        startTimer();
     }
 
     modal.style.display = "none";
@@ -58,46 +58,24 @@ saveNameBtn.addEventListener('click', () => {
 });
 
 
-// // Función para iniciar el temporizador
-// function startTimer() {
-//     let timeLeft = 15;
-
-//     countdownTimer = setInterval(() => {
-//         if (timeLeft > 0) {
-//             timer.innerHTML = `<span>Tiempo restante: ${timeLeft} segundos</span>`;
-//             timeLeft--;
-//             console.log(timeLeft);
-//         } else {
-//             timeLeft = 15;
-//             if (currentQuestionIndex <= questions.length) {
-//             questions.splice(currentQuestionIndex, 1);
-//                 displayCurrentQuestion();
-//             }
-//         }
-//     }, 1000);
-// }
-
 // Función para iniciar el temporizador
 function startTimer() {
     let timeLeft = 15;
-
-    function updateTimer() {
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(() => {
         if (timeLeft > 0) {
             timer.innerHTML = `<span>Tiempo restante: ${timeLeft} segundos</span>`;
             timeLeft--;
             console.log(timeLeft);
-            setTimeout(updateTimer, 1000);
         } else {
+            clearInterval(countdownTimer);
             timeLeft = 15;
-            if (currentQuestionIndex <= questions.length) {
-                questions.splice(currentQuestionIndex, 1);
+            if (currentQuestionIndex < questions.length) {
+            questions.splice(currentQuestionIndex, 1);
                 displayCurrentQuestion();
             }
         }
-    }
-
-    // Inicia el temporizador por primera vez
-    updateTimer();
+    }, 1000);
 }
 
 // funcion pa cargar el estado de la app
@@ -108,7 +86,6 @@ function displaySavedQuestion() {
     if (savedQuestion != null && savedQuestion.length > 0 ) {
         questions = savedQuestion;
         score = savedScore;
-        startTimer();
         displayCurrentQuestion();
     }else {
         traerPregunta();
@@ -120,6 +97,7 @@ function displaySavedQuestion() {
             if (questions.length > 0) {
                 currentQuestionIndex = (Math.floor(Math.random() * (1 + questions.length - 1)));
                 const currentQuestion = questions[currentQuestionIndex];
+                startTimer();
                 questionHtmlElement.innerHTML = '';
                 for (let i = 0; i < currentQuestion.question.length; i++) {
                     const span = document.createElement('span');
@@ -129,6 +107,10 @@ function displaySavedQuestion() {
                     questionHtmlElement.appendChild(span);
                     console.log(currentQuestion.question);
                 }
+            
+        optionAButton.removeEventListener('click', handleOptionAClick);
+        optionBButton.removeEventListener('click', handleOptionBClick);
+        optionCButton.removeEventListener('click', handleOptionCClick);
 
 
         optionAButton.textContent = currentQuestion.option[0];
@@ -137,21 +119,16 @@ function displaySavedQuestion() {
         colorButons();
 
         // Agregar eventos click para los botones de opción
-        optionAButton.addEventListener('click',() => {
-            checkAnswer(0);
-        });
+        optionAButton.addEventListener('click',handleOptionAClick);
 
-        optionBButton.addEventListener('click',() => {
-            checkAnswer(1);
-        });
+        optionBButton.addEventListener('click',handleOptionBClick);
 
-        optionCButton.addEventListener('click',() => {
-            checkAnswer(2);
-        });
+        optionCButton.addEventListener('click',handleOptionCClick);
 
     } else {
+        clearInterval(countdownTimer);
         timer.remove();
-        questionHtmlElement.textContent = `Juego terminado ${score > 0 ? 'tu puntaje es : ' + score : + 'Perdiste Bobo'}`;
+        questionHtmlElement.textContent = `Juego terminado ${score > 0 ? 'tu puntaje es : ' + score :  'Perdiste Bobo'}`;
         optionAButton.style.display = 'none';
         optionBButton.style.display = 'none';
         optionCButton.style.display = 'none';
@@ -162,32 +139,17 @@ function displaySavedQuestion() {
         buttonDiv.append(resetButton);
 
         resetButton.addEventListener('click',() => {
+            score = 0;
             localStorage.clear();
             window.location.reload();
+            
         });
     }
 };
 
-//// funcion para checkar respuesta
-// function checkAnswer(userAnswer) {
-//     if (currentQuestionIndex < questions.length) {
-//         const currentQuestion = questions[currentQuestionIndex];
-
-//         if (userAnswer === currentQuestion.correctAnswer) {
-//             score++;
-//         }
-//         colorButons(currentQuestion.correctAnswer);
-//         questions.splice(currentQuestionIndex, 1);
-//         setTimeout(() => {
-//             displayCurrentQuestion();
-//             unColorbuttons();
-//         }, 1000);
-//         saveCurrentQuestion();
-//         console.log(questions.length);
-//         console.log(currentQuestionIndex)
-//     }
-// };
 function checkAnswer(userAnswer) {
+    clearInterval(countdownTimer);
+    console.log(questions);
     if (currentQuestionIndex < questions.length) {
         const currentQuestion = questions[currentQuestionIndex];
         if (userAnswer === currentQuestion.correctAnswer) {
@@ -196,13 +158,25 @@ function checkAnswer(userAnswer) {
         colorButons(currentQuestion.correctAnswer);
         questions.splice(currentQuestionIndex, 1);
         setTimeout(() => {
+        clearInterval(countdownTimer);
             displayCurrentQuestion();
             unColorbuttons();
         }, 1000);
         saveCurrentQuestion();
     }
 };
+// Manejadores de clic separados para cada botón
+function handleOptionAClick() {
+    checkAnswer(0);
+}
 
+function handleOptionBClick() {
+    checkAnswer(1);
+}
+
+function handleOptionCClick() {
+    checkAnswer(2);
+}
 //funcion pa guardar el estado de la app   
 function saveCurrentQuestion() {
     if (questions.length >= 0) {
