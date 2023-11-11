@@ -30,7 +30,6 @@ window.onload = () => {
         sweetAlert(savedName, savedScore);
         displaySavedQuestion();
     } else {
-        // Abrir el modal automáticamente al cargar la página
         modal.style.display = 'block';
     }
     // Cerrar el modal
@@ -56,27 +55,6 @@ saveNameBtn.addEventListener('click', () => {
     modal.style.display = "none";
     displaySavedQuestion();
 });
-
-
-// Función para iniciar el temporizador
-function startTimer() {
-    let timeLeft = 15;
-    clearInterval(countdownTimer);
-    countdownTimer = setInterval(() => {
-        if (timeLeft > 0) {
-            timer.innerHTML = `<span>Tiempo restante: ${timeLeft} segundos</span>`;
-            timeLeft--;
-            console.log(timeLeft);
-        } else {
-            clearInterval(countdownTimer);
-            timeLeft = 15;
-            if (currentQuestionIndex < questions.length) {
-            questions.splice(currentQuestionIndex, 1);
-                displayCurrentQuestion();
-            }
-        }
-    }, 1000);
-}
 
 // funcion pa cargar el estado de la app
 function displaySavedQuestion() {
@@ -147,6 +125,27 @@ function displaySavedQuestion() {
     }
 };
 
+// Función para iniciar el temporizador
+function startTimer() {
+    let timeLeft = 15;
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(() => {
+        if (timeLeft > 0) {
+            timer.innerHTML = `<span class='timer'>${timeLeft}</span>`;
+            timeLeft--;
+            console.log(timeLeft);
+        } else {
+            clearInterval(countdownTimer);
+            timeLeft = 15;
+            if (currentQuestionIndex < questions.length) {
+            questions.splice(currentQuestionIndex, 1);
+                displayCurrentQuestion();
+            }
+        }
+    }, 1000);
+}
+
+//Funcion para compara la respuesta con la respuesta correcta
 function checkAnswer(userAnswer) {
     clearInterval(countdownTimer);
     console.log(questions);
@@ -165,6 +164,7 @@ function checkAnswer(userAnswer) {
         saveCurrentQuestion();
     }
 };
+
 // Manejadores de clic separados para cada botón
 function handleOptionAClick() {
     checkAnswer(0);
