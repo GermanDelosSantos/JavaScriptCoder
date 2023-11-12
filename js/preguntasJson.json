@@ -13,5 +13,30 @@
     "question": "¿Cuál es el Pokémon legendario que representa el tiempo?",
     "option": ["a) Dialga", "b) Palkia", "c) Giratina"],
     "correctAnswer": 0
+    },
+    {
+    "question": "¿Cuál es el Pokémon que puede megaevolucionar en las dos versiones X e Y, pero con megaevoluciones diferentes en cada una?",
+    "option": ["a) Charizard", "b) Mewtwo", "c) Lucario"],
+    "correctAnswer": 1
+    },
+    {
+    "question": "¿Cuál es el Pokémon que tiene la habilidad 'Levitón' y es inmune a todos los ataques de tipo Tierra?",
+    "option": ["a) Gengar", "b) Flygon", "c) Magnezone"],
+    "correctAnswer": 1
+    },
+    {
+    "question": "¿Cuántos Pokémon hay en total hasta la séptima generación, incluyendo formas alternativas?",
+    "option": ["a) 721", "b) 802", "c) 893"],
+    "correctAnswer": 1
+    },
+    {
+    "question": "¿Cuál es el Pokémon conocido por cambiar de forma según el clima y la hora del día?",
+    "option": ["a) Castform", "b) Shaymin", "c) Mimikyu"],
+    "correctAnswer": 0
+    },
+    {
+    "question": "¿Qué Pokémon tiene la habilidad 'Presión' y es conocido por ser el guardián de la Torre Hojalata?",
+    "option": ["a) Lugia", "b) Ho-Oh", "c) Suicune"],
+    "correctAnswer": 2
     }
 ]

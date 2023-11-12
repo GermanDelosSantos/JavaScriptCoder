@@ -61,6 +61,7 @@ function displaySavedQuestion() {
     const savedQuestionString = localStorage.getItem('Savedquestions');
     const savedQuestion = JSON.parse(savedQuestionString);
     const savedScore = JSON.parse(localStorage.getItem('savedScore'));
+    
     if (savedQuestion != null && savedQuestion.length > 0 ) {
         questions = savedQuestion;
         score = savedScore;
@@ -71,59 +72,61 @@ function displaySavedQuestion() {
 };
 
 // funcion pa mostrar las preguntas
-        function displayCurrentQuestion() {
-            if (questions.length > 0) {
-                currentQuestionIndex = (Math.floor(Math.random() * (1 + questions.length - 1)));
-                const currentQuestion = questions[currentQuestionIndex];
-                startTimer();
-                questionHtmlElement.innerHTML = '';
-                for (let i = 0; i < currentQuestion.question.length; i++) {
-                    const span = document.createElement('span');
-                    span.setAttribute('class', 'fall letras');
-                    span.setAttribute('style', `animation-delay: ${i / 20}s`);
-                    span.textContent = currentQuestion.question[i];
-                    questionHtmlElement.appendChild(span);
-                    console.log(currentQuestion.question);
-                }
-            
-        optionAButton.removeEventListener('click', handleOptionAClick);
-        optionBButton.removeEventListener('click', handleOptionBClick);
-        optionCButton.removeEventListener('click', handleOptionCClick);
+function displayCurrentQuestion() {
+    if (questions.length > 0) {
+        currentQuestionIndex = Math.floor(Math.random() * questions.length);
+        const currentQuestion = questions[currentQuestionIndex];
 
+        // Verifica si currentQuestion es un objeto válido y tiene las propiedades necesarias
+        if (currentQuestion && currentQuestion.hasOwnProperty('question') && currentQuestion.hasOwnProperty('option') && currentQuestion.hasOwnProperty('correctAnswer')) {
+            startTimer();
+            questionHtmlElement.innerHTML = '';
+            for (let i = 0; i < currentQuestion.question.length; i++) {
+                const span = document.createElement('span');
+                span.setAttribute('class', 'fall letras');
+                span.setAttribute('style', `animation-delay: ${i / 20}s`);
+                span.textContent = currentQuestion.question[i];
+                questionHtmlElement.appendChild(span);
+                console.log(currentQuestion.question);
+            }
 
-        optionAButton.textContent = currentQuestion.option[0];
-        optionBButton.textContent = currentQuestion.option[1];
-        optionCButton.textContent = currentQuestion.option[2];
-        colorButons();
+            optionAButton.removeEventListener('click', handleOptionAClick);
+            optionBButton.removeEventListener('click', handleOptionBClick);
+            optionCButton.removeEventListener('click', handleOptionCClick);
 
-        // Agregar eventos click para los botones de opción
-        optionAButton.addEventListener('click',handleOptionAClick);
+            optionAButton.textContent = currentQuestion.option[0];
+            optionBButton.textContent = currentQuestion.option[1];
+            optionCButton.textContent = currentQuestion.option[2];
+            colorButons();
 
-        optionBButton.addEventListener('click',handleOptionBClick);
-
-        optionCButton.addEventListener('click',handleOptionCClick);
-
+            // Agregar eventos click para los botones de opción
+            optionAButton.addEventListener('click', handleOptionAClick);
+            optionBButton.addEventListener('click', handleOptionBClick);
+            optionCButton.addEventListener('click', handleOptionCClick);
+        } else {
+            // Si currentQuestion no tiene el formato esperado, mostrar un mensaje de error o realizar alguna acción de manejo.
+            console.error('Formato de pregunta no válido:', currentQuestion);
+        }
     } else {
         clearInterval(countdownTimer);
         timer.remove();
-        questionHtmlElement.textContent = `Juego terminado ${score > 0 ? 'tu puntaje es : ' + score :  'Perdiste Bobo'}`;
+        questionHtmlElement.textContent = `Juego terminado ${score > 0 ? 'tu puntaje es : ' + score : 'Perdiste Bobo'}`;
         optionAButton.style.display = 'none';
         optionBButton.style.display = 'none';
         optionCButton.style.display = 'none';
 
         const resetButton = document.createElement('button');
         resetButton.setAttribute('id', 'resetButton');
-        resetButton.textContent = ('Reniciar Juego')
+        resetButton.textContent = ('Reniciar Juego');
         buttonDiv.append(resetButton);
 
-        resetButton.addEventListener('click',() => {
+        resetButton.addEventListener('click', () => {
             score = 0;
             localStorage.clear();
             window.location.reload();
-            
         });
     }
-};
+}
 
 // Función para iniciar el temporizador
 function startTimer() {
