@@ -36,7 +36,7 @@
     },
     {
     "question": "¿Qué Pokémon tiene la habilidad 'Presión' y es conocido por ser el guardián de la Torre Hojalata?",
-    "option": ["a) Suicune","b) Lugia", "b) Ho-Oh" ],
+    "option": ["a) Suicune","b) Lugia", "c) Ho-Oh" ],
     "correctAnswer": 0
     }
 ]
